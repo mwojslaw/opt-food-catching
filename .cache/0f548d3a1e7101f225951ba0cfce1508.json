@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"./index.ts","dynamic":true}],"generated":{"html":"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>parcel app</title>\n</head>\n<body>\n    <div id=\"root\"></div>\n    <script src=\"/dist/885b4ac51e81ebf8720a528565fc3e80.js\"></script>\n</body>\n</html>\n"},"hash":"ca5da644d09dd12b86d8848eea8eb0f8","cacheData":{}}
