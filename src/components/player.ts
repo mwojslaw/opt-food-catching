@@ -1,7 +1,9 @@
 import { 
     Texture, 
-    Sprite 
+    Sprite
 } from "pixi.js";
+
+import { Component } from "./";
 
 type PlayerTextures = {
     turnLeft: Texture,
@@ -9,13 +11,9 @@ type PlayerTextures = {
     turnRight: Texture,
 }
 
-class Player {
-    sprite: Sprite;
-
+class Player extends Component<Sprite> {
     constructor(protected playerTextures: PlayerTextures, x: number, y: number){
-        this.sprite = new Sprite(playerTextures.straight);
-        this.sprite.position.x = x;
-        this.sprite.position.y = y;
+        super(new Sprite(playerTextures.straight), x, y);
     }
 
     turnLeft() {

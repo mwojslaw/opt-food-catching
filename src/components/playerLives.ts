@@ -1,16 +1,17 @@
-import { Text } from "pixi.js";
+import {
+    Text
+} from "pixi.js";
 
-class PlayerLives {
-    livesText: Text;
+import { Component } from "./";
 
-    constructor(protected lives: number, x: number, y: number){
-        this.livesText = new Text(this.lives.toString());
-        this.livesText.position.set(x, y);
+class PlayerLives extends Component<Text>{
+    constructor(public lives: number, x: number, y: number){
+        super(new Text(lives.toString()), x, y);
     }
 
     decreaseLives(){
         this.lives--;
-        this.livesText.text = this.lives.toString();
+        this.sprite.text = this.lives.toString();
     }
 }
 

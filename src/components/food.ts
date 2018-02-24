@@ -3,12 +3,11 @@ import {
     Sprite 
 } from "pixi.js";
 
-class Food {
-    sprite: Sprite;
+import { Component } from "./";
+
+class Food extends Component<Sprite> {
     constructor(texture: Texture, x: number, y: number) {
-        this.sprite = new Sprite(texture);
-        this.sprite.position.x = x;
-        this.sprite.position.y = y;
+        super(new Sprite(texture), x, y);
     }
 
     drop() {

@@ -1,17 +1,16 @@
 import { Text } from "pixi.js";
+import { Component } from "./";
 
-class Score {
+class Score extends Component<Text> {
     score: number = 0;
-    scoreText: Text;
 
     constructor(x: number, y: number){
-        this.scoreText = new Text(this.score.toString());
-        this.scoreText.position.set(x, y);
+        super(new Text("0"), x, y);
     }
 
     increaseScore(){
         this.score++;
-        this.scoreText.text = this.score.toString();
+        this.sprite.text = this.score.toString();
     }
 }
 
