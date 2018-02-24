@@ -9,13 +9,13 @@ import {
 
 import Player from "./player";
 import Food from "./food";
+import Score from "./score";
+import PlayerLives from "./playerLives";
 import { boxesIntersect } from "../utils/collision";
 
 export class Game {
-    score: number = 0;
-    numberOfDropped: number = 0;
-    droppedFoodText:Text;
-    catchedFoodText: Text;
+    score: Score;
+    playerLives: PlayerLives;
     stage: Container;
     renderer: WebGLRenderer | CanvasRenderer;
     visibleFood: Food[] = [];
@@ -26,6 +26,21 @@ export class Game {
     }
 
     constructor(element: HTMLElement, width: number, height: number, protected player: Player){
+        this.composeUI(
+            element,
+            width,
+            height,
+            player
+        );
+        requestAnimationFrame(this.loop);
+    }
+
+    composeUI(
+        root: HTMLElement,
+        width: number,
+        height: number,
+        player: Player,
+    ){
         this.stage = new Container();
         this.renderer = autoDetectRenderer(width, height, {
             backgroundColor: 15068144,
@@ -33,19 +48,15 @@ export class Game {
         });
         this.renderer.view.style.position = "absolute";
 
-        this.stage.addChild(player.sprite);
+        this.stage.addChild(this.player.sprite)
 
-        this.droppedFoodText = new Text(this.numberOfDropped.toString());
-        this.stage.addChild(this.droppedFoodText);
+        this.score = new Score(800, 100);
+        this.stage.addChild(this.score.scoreText);
 
-        this.catchedFoodText = new Text(this.score.toString());
-        this.catchedFoodText.position.set(500, 0)
+        this.playerLives = new PlayerLives(10, 100, 100);
+        this.stage.addChild(this.playerLives.livesText);
 
-        this.stage.addChild(this.catchedFoodText);
-
-        element.appendChild(this.renderer.view);
-
-        requestAnimationFrame(this.loop);
+        root.appendChild(this.renderer.view);
     }
 
     loop = () => {
@@ -57,19 +68,15 @@ export class Game {
         if(dropped){
             this.visibleFood = this.visibleFood.filter(f => f !== dropped)
             this.stage.removeChild(dropped.sprite);
-            this.numberOfDropped++;
-            this.droppedFoodText.text = this.numberOfDropped.toString();
-
-            if(this.numberOfDropped === 10){
-                console.log("game over");
-            }
+            
+            this.playerLives.decreaseLives();
         }
 
         if(eated){
             this.visibleFood = this.visibleFood.filter(f => f !== eated)
             this.stage.removeChild(eated.sprite);
-            this.score++;
-            this.catchedFoodText.text = this.score.toString();
+
+            this.score.increaseScore();
         }
 
         this.renderer.render(this.stage);
