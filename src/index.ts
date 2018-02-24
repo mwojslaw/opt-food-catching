@@ -16,7 +16,7 @@ import Game from "./game";
 import Food from "./food";
 import Player from "./player";
 import CollisionManager from "./collisionManager";
-
+import keyCodes from "./utils/keyCodes";
 
 let player: Player;
 
@@ -47,11 +47,11 @@ const dropFood = (game: Game, spritesheet: Spritesheet) => {
 };
 
 window.addEventListener("keydown", (e: KeyboardEvent) => {
-    if(e.keyCode === 37) {
+    if(e.keyCode === keyCodes.arrowLeft) {
         player.moveLeft();
     }
 
-    if(e.keyCode === 39){
+    if(e.keyCode === keyCodes.arrowRight){
         player.moveRight();
     }
 });
