@@ -10,24 +10,33 @@ import "normalize.css";
 
 import * as foodSet from "./images/food.json";
 import * as foodPng from "./images/food.png";
-import * as playerPng from "./images/player_0.png";
+import * as playerStraight from "./images/player_straight.png";
+import * as playerTurnLeft from "./images/player_turnLeft.png";
+import * as playerTurnRight from "./images/player_turnRight.png";
 
-import Game from "./game";
-import Food from "./food";
-import Player from "./player";
-import CollisionManager from "./collisionManager";
+import Game from "./components/game";
+import Food from "./components/food";
+import Player from "./components/player";
 import keyCodes from "./utils/keyCodes";
 
 let player: Player;
 
-loader.add(playerPng).load(() => {
+loader
+.add(playerStraight)
+.add(playerTurnLeft)
+.add(playerTurnRight)
+.load(() => {
     
     const baseTexture = BaseTexture.from(foodPng, null, 1);
     
     baseTexture.on("loaded", baseTexture => {
         const spritesheet = new Spritesheet(baseTexture, foodSet);
         spritesheet.parse(function (textures) {
-            player = new Player(loader.resources[playerPng].texture, window.innerWidth / 2, window.innerHeight - 100);
+            player = new Player({
+                straight: loader.resources[playerStraight].texture,
+                turnLeft: loader.resources[playerTurnLeft].texture,
+                turnRight: loader.resources[playerTurnRight].texture,
+            }, window.innerWidth / 2, window.innerHeight - 100);
             const game = new Game(
                 document.getElementById("root"), 
                 window.innerWidth, 
@@ -46,12 +55,17 @@ const dropFood = (game: Game, spritesheet: Spritesheet) => {
     }, 200)
 };
 
-window.addEventListener("keydown", (e: KeyboardEvent) => {
+window.addEventListener("keydown", e => {
     if(e.keyCode === keyCodes.arrowLeft) {
-        player.moveLeft();
+        player.turnLeft();
     }
 
     if(e.keyCode === keyCodes.arrowRight){
-        player.moveRight();
+        player.turnRight();
     }
+});
+
+window.addEventListener("keyup", e => {
+    if([keyCodes.arrowLeft, keyCodes.arrowRight].indexOf(e.keyCode) !== -1 )
+        player.standStraight();
 });
