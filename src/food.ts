@@ -1,13 +1,11 @@
-import { Texture, Sprite } from "pixi.js";
-import Game from "./game";
+import { 
+    Texture, 
+    Sprite 
+} from "pixi.js";
 
 class Food {
     sprite: Sprite;
-    constructor(
-        texture: Texture, 
-        x: number,
-        y: number) {
-
+    constructor(texture: Texture, x: number, y: number) {
         this.sprite = new Sprite(texture);
         this.sprite.position.x = x;
         this.sprite.position.y = y;

@@ -1,5 +1,7 @@
-import { Texture, Sprite } from "pixi.js";
-import Game from "./game";
+import { 
+    Texture, 
+    Sprite 
+} from "pixi.js";
 
 class Player {
     sprite: Sprite;

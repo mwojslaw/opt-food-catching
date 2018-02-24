@@ -4,20 +4,11 @@ import {
     WebGLRenderer,
     CanvasRenderer,
     autoDetectRenderer,
-    
 } from "pixi.js";
 
 import Player from "./player";
 import Food from "./food";
-import food from "./food";
-import player from "./player";
-
-function boxesIntersect(a, b)
-{
-  var ab = a.getBounds();
-  var bb = b.getBounds();
-  return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
-}
+import { boxesIntersect } from "./utils/collision";
 
 export class Game {
     score: number = 0;
