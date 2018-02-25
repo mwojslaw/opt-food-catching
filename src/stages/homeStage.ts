@@ -8,19 +8,31 @@ import StageManager from "./../engine/stageManager";
 import stages from "./../constants/stages";
 
 class HomeStage extends Stage {
+    flashingItervalId: number;
+    header: Text;
     constructor(){
         super();
 
         const cover = new Sprite(loader.resources[textures.cover].texture);
-        const header = new Text("Press space to start new game");
-        header.position.set(100, 100);
-        [cover, header].forEach(c => this.addChild(c));
+        cover.scale.set(0.5, 0.5);
+        cover.centerX(StageManager.width);
+        cover.centerY(StageManager.height);
+
+        this.header = new Text("[SPACE] TO START");
+        this.header.centerX(StageManager.width);
+        this.header.centerY(StageManager.height);
+
+        [cover, this.header].forEach(c => this.addChild(c));
 
         this.registerEvents();
     }
 
     private registerEvents(){
         window.addEventListener("keydown", this.keyDownEventListener);
+
+        this.flashingItervalId = setInterval(() => {
+            this.header.visible = !this.header.visible;
+        }, 500);
     }
 
     private keyDownEventListener(e: KeyboardEvent){
@@ -31,6 +43,7 @@ class HomeStage extends Stage {
 
     onDestroy(){
         window.removeEventListener("keydown", this.keyDownEventListener);
+        clearInterval(this.flashingItervalId);
     }
 
     onUpdate(){

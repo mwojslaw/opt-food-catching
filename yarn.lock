@@ -2624,6 +2624,10 @@ physical-cpu-count@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/physical-cpu-count/-/physical-cpu-count-2.0.0.tgz#18de2f97e4bf7a9551ad7511942b5496f7aba660"
 
+pixi-center@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/pixi-center/-/pixi-center-1.0.11.tgz#2bae4771f42aaf2100d10c882ad26854f23fdd10"
+
 pixi-gl-core@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/pixi-gl-core/-/pixi-gl-core-1.1.4.tgz#8b4b5c433b31e419bc379dc565ce1b835a91b372"

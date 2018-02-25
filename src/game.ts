@@ -1,5 +1,7 @@
 
 import { loader } from "pixi.js";
+import 'pixi-center';
+
 import GameOverStage from "./stages/gameOverStage";
 import GameStage from "./stages/gameStage";
 import HomeStage from "./stages/homeStage";
@@ -16,8 +18,7 @@ export class Game {
         loader.load(() => {
             StageManager
                 .create(element, width, height, {
-                    backgroundColor: 15068144,
-                    antialias: true
+                    backgroundColor: 10263708,
                 })
                 .addStage(
                     stages.game,

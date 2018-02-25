@@ -12,6 +12,7 @@ import stages from "./../constants/stages";
 
 import {
     loader,
+    Text
 } from "pixi.js";
 
 const foodTextures = [
@@ -26,6 +27,7 @@ const foodTextures = [
 class GameStage extends Stage {
     player: Player;
     score: Score;
+    pauseHint: Text;
     playerLives: PlayerLives;
     food: Food[] = [];
 
@@ -39,14 +41,17 @@ class GameStage extends Stage {
             straight: loader.resources[textures.playerStraight].texture,
             turnLeft: loader.resources[textures.playerTurnLeft].texture,
             turnRight: loader.resources[textures.playerTurnRight].texture,
-        }, window.innerWidth / 2, window.innerHeight - 100);
-        this.score = new Score(800, 100);
-        this.playerLives = new PlayerLives(1, 100, 100);
+        }, StageManager.width / 2 - 20, StageManager.height - 90);
+        this.score = new Score(0, 0);
+        this.playerLives = new PlayerLives(10, StageManager.width - 30, 0);
+        this.pauseHint = new Text("SPACE TO PAUSE");
+        this.pauseHint.centerX(StageManager.width);
 
         [
             this.player.sprite,
             this.score.sprite,
-            this.playerLives.sprite
+            this.playerLives.sprite,
+            this.pauseHint
         ].forEach(c => this.addChild(c));
 
         this.dropFood();
@@ -61,10 +66,12 @@ class GameStage extends Stage {
 
     private dropFood(){
         setInterval(() => {
-            const f = new Food(loader.resources[getRandomElement(foodTextures)].texture, Math.random() * 800, 100);
+            if(this.paused) return;
+
+            const f = new Food(loader.resources[getRandomElement(foodTextures)].texture, Math.random() * StageManager.width, 0);
             this.addChild(f.sprite);
             this.food.push(f);
-        }, 1000)
+        }, 1000);
     }
 
     private keyDownEventListener = (e: KeyboardEvent) => {
@@ -73,6 +80,11 @@ class GameStage extends Stage {
         
         if(e.keyCode === keyCodes.arrowRight)
             this.player.turnRight();
+
+        if(e.keyCode === keyCodes.space){
+            if(this.paused) this.resume();
+            else this.pause();
+        }
     }
 
     private keyUpEventListener = (e: KeyboardEvent) => {
@@ -90,10 +102,10 @@ class GameStage extends Stage {
         this.food.forEach(f => f.drop());
 
         const eated = this.food.find(f => boxesIntersect(f.sprite, this.player.sprite));
-        const dropped = this.food.find(f => f.sprite.position.y > this.height);
+        const dropped = this.food.find(f => f.sprite.position.y > StageManager.height);
 
         if(dropped){
-            this.food = this.food.filter(f => f !== dropped)
+            this.food = this.food.filter(f => f !== dropped);
             this.removeChild(dropped.sprite);
             
             this.playerLives.decreaseLives();

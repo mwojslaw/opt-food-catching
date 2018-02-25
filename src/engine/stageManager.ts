@@ -11,6 +11,8 @@ interface StageConstructor {
 }
 
 class StageManager {
+    static width: number;
+    static height: number;
     static renderer: WebGLRenderer | CanvasRenderer;
     static activeStage: Stage;
     static stages: {
@@ -20,8 +22,12 @@ class StageManager {
 
     static create(root: HTMLElement, width: number, height:number, options?: RendererOptions){
         if (this.renderer) return this;
-
+        
+        this.width = width;
+        this.height = height;
         this.renderer = autoDetectRenderer(width, height, options);
+        this.renderer.view.style.position = "absolute"
+
         root.appendChild(this.renderer.view);
         requestAnimationFrame(() => this.loop());
 
@@ -49,6 +55,8 @@ class StageManager {
 
     private static loop() {
         requestAnimationFrame(() => this.loop());
+
+        if(this.activeStage.paused) return;
 
         this.activeStage.onUpdate();
         this.renderer.render(this.activeStage);

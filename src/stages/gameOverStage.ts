@@ -7,7 +7,12 @@ import stages from "./../constants/stages";
 class GameOverStage extends Stage {
     constructor(){
         super();
-        const message = new Text("Game over !");
+        const message = new Text("GAME OVER", {
+            fontSize: 40,
+            fontWeight: "bold",
+        });
+        message.centerX(StageManager.width);
+        message.centerY(StageManager.height);
 
         [message].forEach(c => this.addChild(c));
         this.registerEvents();

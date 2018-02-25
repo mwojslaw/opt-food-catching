@@ -7,6 +7,14 @@ abstract class Stage extends Container{
         super();
     }
 
+    pause(){
+        this.paused = true;
+    }
+
+    resume(){
+        this.paused = false;
+    }
+
     abstract onUpdate(): void;
     abstract onDestroy(): void;
 }
