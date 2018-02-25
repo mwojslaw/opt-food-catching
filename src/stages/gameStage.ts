@@ -8,6 +8,7 @@ import { getRandomElement } from "./../utils/array";
 import { boxesIntersect } from "./../utils/collision";
 import StageManager from "./../engine/stageManager";
 import textures from "./../constants/textures";
+import stages from "./../constants/stages";
 
 import {
     loader,
@@ -33,7 +34,7 @@ class GameStage extends Stage {
         this.composeUI();
     }
 
-    composeUI(){
+    private composeUI(){
         this.player = new Player({
             straight: loader.resources[textures.playerStraight].texture,
             turnLeft: loader.resources[textures.playerTurnLeft].texture,
@@ -50,30 +51,39 @@ class GameStage extends Stage {
 
         this.dropFood();
 
-        this.addKeyboardListeners();
+        this.registerEvents();
     }
 
-    addKeyboardListeners(){
-        window.addEventListener("keydown", e => {
-            if(e.keyCode === keyCodes.arrowLeft)
-                this.player.turnLeft();
-        
-            if(e.keyCode === keyCodes.arrowRight)
-                this.player.turnRight();
-        });
-        
-        window.addEventListener("keyup", e => {
-            if([keyCodes.arrowLeft, keyCodes.arrowRight].indexOf(e.keyCode) !== -1 )
-                this.player.standStraight();
-        });
+    private registerEvents(){
+        window.addEventListener("keydown", this.keyDownEventListener);
+        window.addEventListener("keyup", this.keyUpEventListener);
     }
 
-    dropFood(){
+    private dropFood(){
         setInterval(() => {
             const f = new Food(loader.resources[getRandomElement(foodTextures)].texture, Math.random() * 800, 100);
             this.addChild(f.sprite);
             this.food.push(f);
         }, 1000)
+    }
+
+    private keyDownEventListener = (e: KeyboardEvent) => {
+        if(e.keyCode === keyCodes.arrowLeft)
+            this.player.turnLeft();
+        
+        if(e.keyCode === keyCodes.arrowRight)
+            this.player.turnRight();
+    }
+
+    private keyUpEventListener = (e: KeyboardEvent) => {
+        // TODO: includes
+        if([keyCodes.arrowLeft, keyCodes.arrowRight].indexOf(e.keyCode) !== -1 )
+            this.player.standStraight();
+    }
+
+    onDestroy(){
+        window.removeEventListener("keydown", this.keyDownEventListener);
+        window.removeEventListener("keyup", this.keyUpEventListener);
     }
 
     onUpdate(){
@@ -89,7 +99,7 @@ class GameStage extends Stage {
             this.playerLives.decreaseLives();
 
             if(this.playerLives.lives === 0)
-                StageManager.goToStage("gameOver");
+                StageManager.goToStage(stages.gameOver);
         }
 
         if(eated){

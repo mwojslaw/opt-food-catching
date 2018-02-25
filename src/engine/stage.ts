@@ -8,6 +8,7 @@ abstract class Stage extends Container{
     }
 
     abstract onUpdate(): void;
+    abstract onDestroy(): void;
 }
 
 export default Stage;

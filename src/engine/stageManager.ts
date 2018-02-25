@@ -38,6 +38,9 @@ class StageManager {
     }
 
     static goToStage(id: string){
+        if(this.activeStage)
+            this.activeStage.onDestroy();
+            
         const stageConstructor = this.stages.find(s => s.id === id).stage;
         this.activeStage = new stageConstructor();
 

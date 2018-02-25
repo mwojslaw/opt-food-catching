@@ -1,15 +1,21 @@
-import { Text } from "pixi.js";
 import Stage from "./../engine/stage";
+import {
+    loader, Sprite, Text
+} from "pixi.js";
+import textures from "./../constants/textures";
 import keyCodes from "./../utils/keyCodes";
 import StageManager from "./../engine/stageManager";
 import stages from "./../constants/stages";
 
-class GameOverStage extends Stage {
+class HomeStage extends Stage {
     constructor(){
         super();
-        const message = new Text("Game over !");
 
-        [message].forEach(c => this.addChild(c));
+        const cover = new Sprite(loader.resources[textures.cover].texture);
+        const header = new Text("Press space to start new game");
+        header.position.set(100, 100);
+        [cover, header].forEach(c => this.addChild(c));
+
         this.registerEvents();
     }
 
@@ -18,19 +24,18 @@ class GameOverStage extends Stage {
     }
 
     private keyDownEventListener(e: KeyboardEvent){
-        if(e.keyCode !== keyCodes.space)
-            return;
+        if(e.keyCode !== keyCodes.space) return;
 
-        StageManager.goToStage(stages.game);
-    }
-
-    onUpdate(){
-        
+        StageManager.goToStage(stages.game)
     }
 
     onDestroy(){
         window.removeEventListener("keydown", this.keyDownEventListener);
     }
+
+    onUpdate(){
+
+    }
 }
 
-export default GameOverStage;
+export default HomeStage;
