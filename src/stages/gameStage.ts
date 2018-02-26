@@ -10,20 +10,8 @@ import StageManager from "./../engine/stageManager";
 import textures from "./../constants/textures";
 import stages from "./../constants/stages";
 import { centerX } from "./../utils/sprite";
-
-import {
-    loader,
-    Text,
-} from "pixi.js";
-
-const foodTextures = [
-    textures.food1,
-    textures.food2,
-    textures.food3,
-    textures.food4,
-    textures.food5,
-    textures.food6
-];
+import game from "./../constants/game";
+import { loader, Text } from "pixi.js";
 
 class GameStage extends Stage {
     player: Player;
@@ -31,7 +19,7 @@ class GameStage extends Stage {
     playerLives: PlayerLives;
     food: Food[] = [];
 
-    constructor(){
+    constructor() {
         super();
         
         this.score = new Score();
@@ -44,7 +32,7 @@ class GameStage extends Stage {
             straight: loader.resources[textures.playerStraight].texture,
             turnLeft: loader.resources[textures.playerTurnLeft].texture,
             turnRight: loader.resources[textures.playerTurnRight].texture,
-        });
+        }, game.playerStep);
         this.player.position.set(StageManager.width / 2, StageManager.height - this.player.height);
 
         const components = [
@@ -59,16 +47,24 @@ class GameStage extends Stage {
         this.registerEvents();
     }
 
-    private registerEvents(){
+    private registerEvents() {
         window.addEventListener("keydown", this.keyDownEventListener);
         window.addEventListener("keyup", this.keyUpEventListener);
     }
 
-    private dropFood(){
+    private dropFood() {
         setInterval(() => {
             if(this.paused) return;
 
-            const food = new Food(loader.resources[getRandomElement(foodTextures)].texture);
+            const food = new Food(loader.resources[getRandomElement([
+                textures.food1,
+                textures.food2,
+                textures.food3,
+                textures.food4,
+                textures.food5,
+                textures.food6
+            ])].texture);
+
             food.position.set(Math.random() * StageManager.width, 0);
             this.addChild(food);
             this.food.push(food);
@@ -76,10 +72,12 @@ class GameStage extends Stage {
     }
 
     private keyDownEventListener = (e: KeyboardEvent) => {
-        if(e.keyCode === keyCodes.arrowLeft)
+        if(!this.paused && e.keyCode === keyCodes.arrowLeft &&
+            this.player.position.x - game.playerStep >= 0)
             this.player.turnLeft();
         
-        if(e.keyCode === keyCodes.arrowRight)
+        if(!this.paused && e.keyCode === keyCodes.arrowRight &&
+            this.player.position.x + this.player.width + game.playerStep <= StageManager.width)
             this.player.turnRight();
 
         if(e.keyCode === keyCodes.space){
@@ -93,31 +91,28 @@ class GameStage extends Stage {
             this.player.standStraight();
     }
 
-    onDestroy(){
+    onDestroy() {
         window.removeEventListener("keydown", this.keyDownEventListener);
         window.removeEventListener("keyup", this.keyUpEventListener);
     }
 
-    onUpdate(){
+    onUpdate() {
         this.food.forEach(f => f.drop());
 
         const eated = this.food.find(f => boxesIntersect(f, this.player));
         const dropped = this.food.find(f => f.position.y > StageManager.height);
 
-        if(dropped){
-            this.food = this.food.filter(f => f !== dropped);
+        if(dropped) {
             this.removeChild(dropped);
-            
             this.playerLives.decreaseLives();
         }
         
-        if(eated){
-            this.food = this.food.filter(f => f !== eated)
+        if(eated) {
             this.removeChild(eated);
-            
             this.score.increaseScore();
         }
 
+        this.food = this.food.filter(f => ![eated, dropped].includes(f));
         if(!this.playerLives.isAlive())
             StageManager.goToStage(stages.gameOver);
     }

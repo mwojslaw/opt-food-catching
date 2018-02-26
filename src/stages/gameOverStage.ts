@@ -6,7 +6,7 @@ import stages from "./../constants/stages";
 import { centerX, centerY } from "./../utils/sprite";
 
 class GameOverStage extends Stage {
-    constructor(){
+    constructor() {
         super();
         const message = new Text("GAME OVER", {
             fontSize: 40,
@@ -19,22 +19,22 @@ class GameOverStage extends Stage {
         this.registerEvents();
     }
 
-    private registerEvents(){
+    private registerEvents() {
         window.addEventListener("keydown", this.keyDownEventListener);
     }
 
-    private keyDownEventListener(e: KeyboardEvent){
+    private keyDownEventListener(e: KeyboardEvent) {
         if(e.keyCode !== keyCodes.space)
             return;
 
         StageManager.goToStage(stages.game);
     }
 
-    onUpdate(){
+    onUpdate() {
         
     }
 
-    onDestroy(){
+    onDestroy() {
         window.removeEventListener("keydown", this.keyDownEventListener);
     }
 }

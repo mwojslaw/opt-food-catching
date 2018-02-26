@@ -11,7 +11,7 @@ import { centerY, centerX } from "./../utils/sprite";
 class HomeStage extends Stage {
     flashingItervalId: number = 0;
     header: Text;
-    constructor(){
+    constructor() {
         super();
 
         const cover = new Sprite(loader.resources[textures.cover].texture);
@@ -28,7 +28,7 @@ class HomeStage extends Stage {
         this.registerEvents();
     }
 
-    private registerEvents(){
+    private registerEvents() {
         window.addEventListener("keydown", this.keyDownEventListener);
 
         this.flashingItervalId = setInterval(() => {
@@ -36,18 +36,18 @@ class HomeStage extends Stage {
         }, 500);
     }
 
-    private keyDownEventListener(e: KeyboardEvent){
+    private keyDownEventListener(e: KeyboardEvent) {
         if(e.keyCode !== keyCodes.space) return;
 
         StageManager.goToStage(stages.game)
     }
 
-    onDestroy(){
+    onDestroy() {
         window.removeEventListener("keydown", this.keyDownEventListener);
         clearInterval(this.flashingItervalId);
     }
 
-    onUpdate(){
+    onUpdate() {
 
     }
 }
