@@ -3,7 +3,7 @@
     "normalize.css": "^8.0.0",
     "pixi.js": "^4.7.0"
   },
-  "name": "projects",
+  "name": "opt-food-catching",
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {

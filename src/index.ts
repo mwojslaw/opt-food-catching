@@ -2,9 +2,10 @@ import "normalize.css";
 import "./index.css";
 
 import Game from "./game";
+import gameConstants from "./constants/game";
 
 const game = new Game(
     document.getElementById("root"), 
-    500, 
-    500,
+    gameConstants.width, 
+    gameConstants.height,
 );

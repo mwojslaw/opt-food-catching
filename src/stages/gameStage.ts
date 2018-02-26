@@ -33,7 +33,9 @@ class GameStage extends Stage {
             turnLeft: loader.resources[textures.playerTurnLeft].texture,
             turnRight: loader.resources[textures.playerTurnRight].texture,
         }, game.playerStep);
-        this.player.position.set(StageManager.width / 2, StageManager.height - this.player.height);
+        this.player.position.set(
+            (StageManager.width / 2) - (this.player.width / 2), 
+            StageManager.height - this.player.height);
 
         const components = [
             this.player,
@@ -68,15 +70,17 @@ class GameStage extends Stage {
             food.position.set(Math.random() * StageManager.width, 0);
             this.addChild(food);
             this.food.push(food);
-        }, 1000);
+        }, game.dropFoodInterval);
     }
 
     private keyDownEventListener = (e: KeyboardEvent) => {
-        if(!this.paused && e.keyCode === keyCodes.arrowLeft &&
+        if(!this.paused && 
+            e.keyCode === keyCodes.arrowLeft &&
             this.player.position.x - game.playerStep >= 0)
             this.player.turnLeft();
         
-        if(!this.paused && e.keyCode === keyCodes.arrowRight &&
+        if(!this.paused && 
+            e.keyCode === keyCodes.arrowRight &&
             this.player.position.x + this.player.width + game.playerStep <= StageManager.width)
             this.player.turnRight();
 

@@ -11,7 +11,7 @@ import stages from "./constants/stages";
 export class Game {
     constructor(element: HTMLElement | null, width: number, height: number){
         if(element === null)
-            throw new Error("Element parameter must exists");
+            throw new Error("Element must exists");
         
         Object.values(textures)
             .forEach(value =>  loader.add(value));
