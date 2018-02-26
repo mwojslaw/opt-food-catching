@@ -13,7 +13,7 @@ import { centerX } from "./../utils/sprite";
 
 import {
     loader,
-    Text
+    Text,
 } from "pixi.js";
 
 const foodTextures = [
@@ -33,28 +33,29 @@ class GameStage extends Stage {
 
     constructor(){
         super();
-        this.composeUI();
-    }
+        
+        this.score = new Score();
+        this.score.position.set(0, 0);
 
-    private composeUI(){
+        this.playerLives = new PlayerLives(10);
+        this.playerLives.position.set(StageManager.width - this.playerLives.width, 0);
+
         this.player = new Player({
             straight: loader.resources[textures.playerStraight].texture,
             turnLeft: loader.resources[textures.playerTurnLeft].texture,
             turnRight: loader.resources[textures.playerTurnRight].texture,
-        }, StageManager.width / 2 - 20, StageManager.height - 90);
-        this.score = new Score(0, 0);
-        this.playerLives = new PlayerLives(10, StageManager.width - 30, 0);
+        });
+        this.player.position.set(StageManager.width / 2, StageManager.height - this.player.height);
 
         const components = [
-            this.player.sprite,
-            this.score.sprite,
-            this.playerLives.sprite,
+            this.player,
+            this.playerLives,
+            this.score,
         ];
 
         components.forEach(c => this.addChild(c));
 
         this.dropFood();
-
         this.registerEvents();
     }
 
@@ -67,9 +68,10 @@ class GameStage extends Stage {
         setInterval(() => {
             if(this.paused) return;
 
-            const f = new Food(loader.resources[getRandomElement(foodTextures)].texture, Math.random() * StageManager.width, 0);
-            this.addChild(f.sprite);
-            this.food.push(f);
+            const food = new Food(loader.resources[getRandomElement(foodTextures)].texture);
+            food.position.set(Math.random() * StageManager.width, 0);
+            this.addChild(food);
+            this.food.push(food);
         }, 1000);
     }
 
@@ -99,25 +101,25 @@ class GameStage extends Stage {
     onUpdate(){
         this.food.forEach(f => f.drop());
 
-        const eated = this.food.find(f => boxesIntersect(f.sprite, this.player.sprite));
-        const dropped = this.food.find(f => f.sprite.position.y > StageManager.height);
+        const eated = this.food.find(f => boxesIntersect(f, this.player));
+        const dropped = this.food.find(f => f.position.y > StageManager.height);
 
         if(dropped){
             this.food = this.food.filter(f => f !== dropped);
-            this.removeChild(dropped.sprite);
+            this.removeChild(dropped);
             
             this.playerLives.decreaseLives();
-
-            if(this.playerLives.lives === 0)
-                StageManager.goToStage(stages.gameOver);
         }
-
+        
         if(eated){
             this.food = this.food.filter(f => f !== eated)
-            this.removeChild(eated.sprite);
-
+            this.removeChild(eated);
+            
             this.score.increaseScore();
         }
+
+        if(!this.playerLives.isAlive())
+            StageManager.goToStage(stages.gameOver);
     }
 }
 

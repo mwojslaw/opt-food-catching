@@ -1,14 +1,17 @@
-import { Text } from "pixi.js";
-import { Component } from "./";
+import { Text, Container } from "pixi.js";
 
-class Score extends Component<Text> {
-    score: number = 0;
+class Score extends Container {
+    private score: number = 0;
+    private sprite: Text;
 
-    constructor(x: number, y: number){
-        super(new Text("0"), x, y);
+    constructor() {
+        super();
+
+        this.sprite = new Text(this.score.toString());
+        this.addChild(this.sprite);
     }
 
-    increaseScore(){
+    increaseScore() {
         this.score++;
         this.sprite.text = this.score.toString();
     }

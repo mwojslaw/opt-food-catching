@@ -1,17 +1,19 @@
 import { 
     Texture, 
-    Sprite 
+    Sprite, 
+    Container
 } from "pixi.js";
 
-import { Component } from "./";
-
-class Food extends Component<Sprite> {
-    constructor(texture: Texture, x: number, y: number) {
-        super(new Sprite(texture), x, y);
+class Food extends Container {
+    private sprite: Sprite;
+    constructor(texture: Texture) {
+        super();
+        this.sprite = new Sprite(texture);
+        this.addChild(this.sprite);
     }
 
     drop() {
-        this.sprite.position.y += 1;
+        this.position.y += 1;
     }
 }
 

@@ -16,7 +16,7 @@ class StageManager {
     static renderer: WebGLRenderer | CanvasRenderer;
     static activeStage: Stage;
     static stages: {
-        stage: StageConstructor,
+        constructor: StageConstructor,
         id: string
     }[] = [];
 
@@ -34,20 +34,25 @@ class StageManager {
         return this;
     }
 
-    static addStage(id: string, stage: new () => Stage){
+    static addStage(id: string, constructor: new () => Stage){
         this.stages = [...this.stages, {
             id,
-            stage
+            constructor
         }];
 
         return this;
     }
 
     static goToStage(id: string){
+        const stage = this.stages.find(s => s.id === id);
+
+        if(!stage)
+            throw new Error("stage don't exists");
+
         if(this.activeStage)
             this.activeStage.onDestroy();
             
-        const stageConstructor = this.stages.find(s => s.id === id).stage;
+        const stageConstructor = stage.constructor;
         this.activeStage = new stageConstructor();
 
         return this;

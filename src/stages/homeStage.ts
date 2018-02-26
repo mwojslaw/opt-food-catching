@@ -9,7 +9,7 @@ import stages from "./../constants/stages";
 import { centerY, centerX } from "./../utils/sprite";
 
 class HomeStage extends Stage {
-    flashingItervalId: number;
+    flashingItervalId: number = 0;
     header: Text;
     constructor(){
         super();

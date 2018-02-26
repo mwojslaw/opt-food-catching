@@ -1,15 +1,21 @@
 import {
-    Text
+    Text, 
+    Container
 } from "pixi.js";
 
-import { Component } from "./";
-
-class PlayerLives extends Component<Text>{
-    constructor(public lives: number, x: number, y: number){
-        super(new Text(lives.toString()), x, y);
+class PlayerLives extends Container {
+    private sprite: Text;
+    constructor(protected lives: number){
+        super();
+        this.sprite = new Text(lives.toString());
+        this.addChild(this.sprite);
     }
 
-    decreaseLives(){
+    isAlive() {
+        return this.lives > 0;
+    }
+
+    decreaseLives() {
         this.lives--;
         this.sprite.text = this.lives.toString();
     }

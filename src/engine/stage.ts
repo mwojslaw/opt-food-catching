@@ -1,17 +1,13 @@
-import { Container, Text, DisplayObject} from "pixi.js";
+import { Container } from "pixi.js";
 
-abstract class Stage extends Container{
-    paused: boolean;
+abstract class Stage extends Container {
+    paused: boolean = false;
 
-    constructor(){
-        super();
-    }
-
-    pause(){
+    pause() {
         this.paused = true;
     }
 
-    resume(){
+    resume() {
         this.paused = false;
     }
 
