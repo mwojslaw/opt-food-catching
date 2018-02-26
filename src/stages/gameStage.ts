@@ -9,6 +9,7 @@ import { boxesIntersect } from "./../utils/collision";
 import StageManager from "./../engine/stageManager";
 import textures from "./../constants/textures";
 import stages from "./../constants/stages";
+import { centerX } from "./../utils/sprite";
 
 import {
     loader,
@@ -27,7 +28,6 @@ const foodTextures = [
 class GameStage extends Stage {
     player: Player;
     score: Score;
-    pauseHint: Text;
     playerLives: PlayerLives;
     food: Food[] = [];
 
@@ -44,15 +44,14 @@ class GameStage extends Stage {
         }, StageManager.width / 2 - 20, StageManager.height - 90);
         this.score = new Score(0, 0);
         this.playerLives = new PlayerLives(10, StageManager.width - 30, 0);
-        this.pauseHint = new Text("SPACE TO PAUSE");
-        this.pauseHint.centerX(StageManager.width);
 
-        [
+        const components = [
             this.player.sprite,
             this.score.sprite,
             this.playerLives.sprite,
-            this.pauseHint
-        ].forEach(c => this.addChild(c));
+        ];
+
+        components.forEach(c => this.addChild(c));
 
         this.dropFood();
 
@@ -88,8 +87,7 @@ class GameStage extends Stage {
     }
 
     private keyUpEventListener = (e: KeyboardEvent) => {
-        // TODO: includes
-        if([keyCodes.arrowLeft, keyCodes.arrowRight].indexOf(e.keyCode) !== -1 )
+        if([keyCodes.arrowLeft, keyCodes.arrowRight].includes(e.keyCode))
             this.player.standStraight();
     }
 

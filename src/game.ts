@@ -1,6 +1,5 @@
 
 import { loader } from "pixi.js";
-import 'pixi-center';
 
 import GameOverStage from "./stages/gameOverStage";
 import GameStage from "./stages/gameStage";
@@ -11,9 +10,8 @@ import stages from "./constants/stages";
 
 export class Game {
     constructor(element: HTMLElement, width: number, height: number){
-        // TODO: object.values ?
-        Object.keys(textures)
-            .forEach(key =>  loader.add(textures[key]));
+        Object.values(textures)
+            .forEach(value =>  loader.add(value));
 
         loader.load(() => {
             StageManager

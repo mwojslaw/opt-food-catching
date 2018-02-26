@@ -3,6 +3,7 @@ import Stage from "./../engine/stage";
 import keyCodes from "./../utils/keyCodes";
 import StageManager from "./../engine/stageManager";
 import stages from "./../constants/stages";
+import { centerX, centerY } from "./../utils/sprite";
 
 class GameOverStage extends Stage {
     constructor(){
@@ -11,8 +12,8 @@ class GameOverStage extends Stage {
             fontSize: 40,
             fontWeight: "bold",
         });
-        message.centerX(StageManager.width);
-        message.centerY(StageManager.height);
+        centerX(message, StageManager.width);
+        centerY(message, StageManager.height);
 
         [message].forEach(c => this.addChild(c));
         this.registerEvents();

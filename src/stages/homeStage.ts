@@ -6,6 +6,7 @@ import textures from "./../constants/textures";
 import keyCodes from "./../utils/keyCodes";
 import StageManager from "./../engine/stageManager";
 import stages from "./../constants/stages";
+import { centerY, centerX } from "./../utils/sprite";
 
 class HomeStage extends Stage {
     flashingItervalId: number;
@@ -15,12 +16,12 @@ class HomeStage extends Stage {
 
         const cover = new Sprite(loader.resources[textures.cover].texture);
         cover.scale.set(0.5, 0.5);
-        cover.centerX(StageManager.width);
-        cover.centerY(StageManager.height);
+        centerX(cover, StageManager.width);
+        centerY(cover, StageManager.height);
 
         this.header = new Text("[SPACE] TO START");
-        this.header.centerX(StageManager.width);
-        this.header.centerY(StageManager.height);
+        centerX(this.header, StageManager.width);
+        centerY(this.header, StageManager.height);
 
         [cover, this.header].forEach(c => this.addChild(c));
 
