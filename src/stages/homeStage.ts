@@ -1,7 +1,5 @@
 import Stage from "./../engine/stage";
-import {
-    loader, Sprite, Text
-} from "pixi.js";
+import { loader, Sprite, Text } from "pixi.js";
 import textures from "./../constants/textures";
 import keyCodes from "./../utils/keyCodes";
 import StageManager from "./../engine/stageManager";
@@ -37,9 +35,9 @@ class HomeStage extends Stage {
     }
 
     private keyDownEventListener(e: KeyboardEvent) {
-        if(e.keyCode !== keyCodes.space) return;
+        if (e.keyCode !== keyCodes.space) return;
 
-        StageManager.goToStage(stages.game)
+        StageManager.goToStage(stages.game);
     }
 
     onDestroy() {
@@ -47,9 +45,7 @@ class HomeStage extends Stage {
         clearInterval(this.flashingItervalId);
     }
 
-    onUpdate() {
-
-    }
+    onUpdate() {}
 }
 
 export default HomeStage;

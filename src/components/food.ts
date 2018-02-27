@@ -1,8 +1,4 @@
-import { 
-    Texture, 
-    Sprite, 
-    Container
-} from "pixi.js";
+import { Texture, Sprite, Container } from "pixi.js";
 
 class Food extends Container {
     private sprite: Sprite;

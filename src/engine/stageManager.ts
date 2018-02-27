@@ -1,4 +1,4 @@
-import { 
+import {
     WebGLRenderer,
     CanvasRenderer,
     autoDetectRenderer,
@@ -7,7 +7,7 @@ import {
 import Stage from "./stage";
 
 interface StageConstructor {
-    new (): Stage
+    new (): Stage;
 }
 
 class StageManager {
@@ -16,17 +16,22 @@ class StageManager {
     static renderer: WebGLRenderer | CanvasRenderer;
     static activeStage: Stage;
     static stages: {
-        constructor: StageConstructor,
-        id: string
+        constructor: StageConstructor;
+        id: string;
     }[] = [];
 
-    static create(root: HTMLElement, width: number, height:number, options?: RendererOptions){
+    static create(
+        root: HTMLElement,
+        width: number,
+        height: number,
+        options?: RendererOptions
+    ) {
         if (this.renderer) return this;
-        
+
         this.width = width;
         this.height = height;
         this.renderer = autoDetectRenderer(width, height, options);
-        this.renderer.view.style.position = "absolute"
+        this.renderer.view.style.position = "absolute";
 
         root.appendChild(this.renderer.view);
         requestAnimationFrame(() => this.loop());
@@ -34,24 +39,25 @@ class StageManager {
         return this;
     }
 
-    static addStage(id: string, constructor: new () => Stage){
-        this.stages = [...this.stages, {
-            id,
-            constructor
-        }];
+    static addStage(id: string, constructor: new () => Stage) {
+        this.stages = [
+            ...this.stages,
+            {
+                id,
+                constructor
+            }
+        ];
 
         return this;
     }
 
-    static goToStage(id: string){
+    static goToStage(id: string) {
         const stage = this.stages.find(s => s.id === id);
 
-        if(!stage)
-            throw new Error("stage don't exists");
+        if (!stage) throw new Error("stage don't exists");
 
-        if(this.activeStage)
-            this.activeStage.onDestroy();
-            
+        if (this.activeStage) this.activeStage.onDestroy();
+
         const stageConstructor = stage.constructor;
         this.activeStage = new stageConstructor();
 
@@ -61,12 +67,11 @@ class StageManager {
     private static loop() {
         requestAnimationFrame(() => this.loop());
 
-        if(this.activeStage.paused) return;
+        if (this.activeStage.paused) return;
 
         this.activeStage.onUpdate();
         this.renderer.render(this.activeStage);
     }
-
 }
 
 export default StageManager;

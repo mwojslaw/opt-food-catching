@@ -10,7 +10,7 @@ class GameOverStage extends Stage {
         super();
         const message = new Text("GAME OVER", {
             fontSize: 40,
-            fontWeight: "bold",
+            fontWeight: "bold"
         });
         centerX(message, StageManager.width);
         centerY(message, StageManager.height);
@@ -24,15 +24,12 @@ class GameOverStage extends Stage {
     }
 
     private keyDownEventListener(e: KeyboardEvent) {
-        if(e.keyCode !== keyCodes.space)
-            return;
+        if (e.keyCode !== keyCodes.space) return;
 
         StageManager.goToStage(stages.game);
     }
 
-    onUpdate() {
-        
-    }
+    onUpdate() {}
 
     onDestroy() {
         window.removeEventListener("keydown", this.keyDownEventListener);

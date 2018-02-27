@@ -1,4 +1,3 @@
-
 const game = Object.freeze({
     playerStep: 10,
     width: 500,

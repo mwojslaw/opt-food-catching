@@ -1,18 +1,17 @@
-import { 
-    Texture, 
-    Sprite,
-    Container
-} from "pixi.js";
+import { Texture, Sprite, Container } from "pixi.js";
 
 type PlayerTextures = {
-    turnLeft: Texture,
-    straight: Texture,
-    turnRight: Texture,
-}
+    turnLeft: Texture;
+    straight: Texture;
+    turnRight: Texture;
+};
 
 class Player extends Container {
     private playerSprite: Sprite;
-    constructor(protected playerTextures: PlayerTextures, protected step: number) {
+    constructor(
+        protected playerTextures: PlayerTextures,
+        protected step: number
+    ) {
         super();
 
         this.playerSprite = new Sprite(playerTextures.straight);
