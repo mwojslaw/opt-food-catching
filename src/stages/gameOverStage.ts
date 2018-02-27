@@ -1,9 +1,9 @@
 import { Text } from "pixi.js";
 import Stage from "./../engine/stage";
-import keyCodes from "./../utils/keyCodes";
+import keyCodes from "utils/keyCodes";
 import StageManager from "./../engine/stageManager";
-import stages from "./../constants/stages";
-import { centerX, centerY } from "./../utils/sprite";
+import stages from "constants/stages";
+import { centerX, centerY } from "utils/sprite";
 
 class GameOverStage extends Stage {
     constructor() {

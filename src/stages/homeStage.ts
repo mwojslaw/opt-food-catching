@@ -1,10 +1,10 @@
 import Stage from "./../engine/stage";
 import { loader, Sprite, Text } from "pixi.js";
-import textures from "./../constants/textures";
-import keyCodes from "./../utils/keyCodes";
+import textures from "constants/textures";
+import keyCodes from "utils/keyCodes";
 import StageManager from "./../engine/stageManager";
-import stages from "./../constants/stages";
-import { centerY, centerX } from "./../utils/sprite";
+import stages from "constants/stages";
+import { centerY, centerX } from "utils/sprite";
 
 class HomeStage extends Stage {
     flashingItervalId: number = 0;

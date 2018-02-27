@@ -3,14 +3,14 @@ import Player from "./../components/player";
 import Food from "./../components/food";
 import Score from "./../components/score";
 import PlayerLives from "./../components/playerLives";
-import keyCodes from "./../utils/keyCodes";
-import { getRandomElement } from "./../utils/array";
-import { boxesIntersect } from "./../utils/collision";
+import keyCodes from "utils/keyCodes";
+import { getRandomElement } from "utils/array";
+import { boxesIntersect } from "utils/collision";
 import StageManager from "./../engine/stageManager";
-import textures from "./../constants/textures";
-import stages from "./../constants/stages";
-import { centerX } from "./../utils/sprite";
-import game from "./../constants/game";
+import textures from "constants/textures";
+import stages from "constants/stages";
+import { centerX } from "utils/sprite";
+import game from "constants/game";
 import { loader, Text } from "pixi.js";
 
 class GameStage extends Stage {

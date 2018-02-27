@@ -1,12 +1,14 @@
 {
     "compilerOptions": {
-      "target": "es5",
-      "module": "commonjs",
-      "strict": true,
-      "lib": [
-        "es2016",
-        "dom",
-        "es2017" 
-      ]
+        "target": "es5",
+        "module": "commonjs",
+        "strict": true,
+        "allowJs": false,
+        "baseUrl": ".",
+        "paths": {
+            "utils/*": ["src/utils/*"],
+            "constants/*": ["src/constants/*"]
+        },
+        "lib": ["es2016", "dom", "es2017"]
     }
 }

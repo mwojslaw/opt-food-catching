@@ -1,11 +1,10 @@
 import { loader } from "pixi.js";
-
 import GameOverStage from "./stages/gameOverStage";
 import GameStage from "./stages/gameStage";
 import HomeStage from "./stages/homeStage";
 import StageManager from "./engine/stageManager";
-import textures from "./constants/textures";
-import stages from "./constants/stages";
+import textures from "constants/textures";
+import stages from "constants/stages";
 
 export class Game {
     constructor(element: HTMLElement | null, width: number, height: number) {
