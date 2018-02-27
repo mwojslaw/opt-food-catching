@@ -4,11 +4,12 @@ import keyCodes from "utils/keyCodes";
 import StageManager from "./../engine/stageManager";
 import stages from "constants/stages";
 import { centerX, centerY } from "utils/sprite";
+import BlinkText from "./../components/blinkText";
 
 class GameOverStage extends Stage {
     constructor() {
         super();
-        const message = new Text("GAME OVER", {
+        const message = new BlinkText(500, "GAME OVER", {
             fontSize: 40,
             fontWeight: "bold"
         });

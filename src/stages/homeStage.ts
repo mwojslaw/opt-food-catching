@@ -4,11 +4,11 @@ import textures from "constants/textures";
 import keyCodes from "utils/keyCodes";
 import StageManager from "./../engine/stageManager";
 import stages from "constants/stages";
+import BlinkText from "./../components/blinkText";
 import { centerY, centerX } from "utils/sprite";
 
 class HomeStage extends Stage {
-    flashingItervalId: number = 0;
-    header: Text;
+    header: BlinkText;
     constructor() {
         super();
 
@@ -17,7 +17,7 @@ class HomeStage extends Stage {
         centerX(cover, StageManager.width);
         centerY(cover, StageManager.height);
 
-        this.header = new Text("[SPACE] TO START");
+        this.header = new BlinkText(500, "SPACE TO START");
         centerX(this.header, StageManager.width);
         centerY(this.header, StageManager.height);
 
@@ -28,10 +28,6 @@ class HomeStage extends Stage {
 
     private registerEvents() {
         window.addEventListener("keydown", this.keyDownEventListener);
-
-        this.flashingItervalId = setInterval(() => {
-            this.header.visible = !this.header.visible;
-        }, 500);
     }
 
     private keyDownEventListener(e: KeyboardEvent) {
@@ -42,7 +38,6 @@ class HomeStage extends Stage {
 
     onDestroy() {
         window.removeEventListener("keydown", this.keyDownEventListener);
-        clearInterval(this.flashingItervalId);
     }
 
     onUpdate() {}
